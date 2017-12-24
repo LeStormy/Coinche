@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Java_jcoinche_2017.iml" filepath="$PROJECT_DIR$/Java_jcoinche_2017.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Tools/Tools.iml" filepath="$PROJECT_DIR$/Tools/Tools.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Client/jcoinche-client.iml" filepath="$PROJECT_DIR$/Client/jcoinche-client.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Server/jcoinche-server.iml" filepath="$PROJECT_DIR$/Server/jcoinche-server.iml" />
+    </modules>
+  </component>
+</project>

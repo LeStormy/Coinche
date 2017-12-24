@@ -1,0 +1,204 @@
+syntax = "proto2";
+
+////** CLIENT **\\\\
+
+message BaseCommand {
+    extensions 100 to max;
+
+    enum CommandType {
+        AUCTION = 1;
+        MOVE   = 2;
+        PLAYER_STATE = 3;
+        BET_STATE = 4;
+        STATIC_GAME_STATE = 5;
+        PLAYER_IDENTIFICATION = 6;
+        REQUEST = 7;
+        SWITCH_MODE = 8;
+        SERV_RESP = 9;
+        DISCONNECT = 10;
+    }
+    required CommandType type = 1;
+}
+
+enum Trump {
+    NONE = -1;
+    HEART = 0;
+    DIAMOND = 1;
+    SPADE = 2;
+    CLUB = 3;
+    WITHOUT = 4;
+    ALL = 5;
+}
+
+enum RequestType {
+    R_AUCTION = 0;
+    R_MOVE = 1;
+}
+
+enum Bet {
+    FOLD = -1;
+    EIGHTY = 80;
+    NINETY = 90;
+    HUNDRED = 100;
+    ONETEN = 110;
+    ONETWENTY = 120;
+    ONETHIRTY = 130;
+    ONEFORTY = 140;
+    ONEFIFTY = 150;
+    ONESIXTY = 160;
+    KPO = 162;
+    COINCHE = 300;
+    SURCOINCHE = 600;
+}
+
+message Auction {
+
+    extend BaseCommand {
+        optional Auction cmd = 100;
+    }
+
+    optional Bet bet = 1 [default = FOLD];
+    optional Trump symbol = 2 [default = NONE];
+}
+
+message Move {
+    extend BaseCommand {
+        optional Move cmd = 101;
+    }
+    required int32 index = 1;
+}
+
+////** SERVER **\\\\
+
+enum Symbols {
+    S_EMPTY = -1;
+    S_HEART = 0;
+    S_DIAMOND = 1;
+    S_SPADE = 2;
+    S_CLUB = 3;
+}
+
+enum Values {
+    V_EMPTY = -1;
+    V_SEVEN = 7;
+    V_EIGHT = 8;
+    V_NINE = 9;
+    V_TEN = 10;
+    V_JACK = 11;
+    V_QUEEN = 12;
+    V_KING = 13;
+    V_ACE = 14;
+}
+
+message player_state {
+
+    extend BaseCommand {
+        optional player_state cmd = 102;
+    }
+
+    enum SpecialEvent {
+        NONE = -1;
+
+//        LEREBELOTTEUR = 0; // 20 rebelotte
+//        LAPISSEUSE = 1; // Plus de 6 plis à pisser dans une partie
+//        LEDERDESDER = 2; // 10 annonce remportées avec le 10 de der
+//        LEDOMPTEUR = 3; // Un sept ça ramène ses bêtes
+//        LATIMIDE = 4; // Finir une partie en n'ayant jamais pris d'enchère
+//        LEGOURMAND = 5; // Finir une partie en ayant pris toutes les enchères
+    }
+
+    message Card {
+        required Symbols sym = 1;
+        required Values val = 2;
+    }
+
+    repeated Card hand = 1;
+    required int32 scoreOne = 2;
+    required int32 scoreTwo = 3;
+    repeated Card trick = 4;
+    required Players dealer = 5;
+    required Players taker = 6;
+    required Players turn = 7;
+    required Trump trump = 8;
+    required int32 starter = 9;
+
+    optional SpecialEvent hf = 10 [default = NONE];
+}
+
+enum Players {
+    PLAYER_NONE = -1;
+    PLAYER_ONE = 0;
+    PLAYER_TWO = 1;
+    PLAYER_THREE = 2;
+    PLAYER_FOUR = 3;
+}
+
+message bet_state {
+    extend BaseCommand {
+        optional bet_state cmd = 103;
+    }
+    required Trump trump = 1;
+    required Bet bet = 2;
+    required Players bettingPlayer = 3;
+}
+
+message static_game_state {
+    extend BaseCommand {
+        optional static_game_state cmd = 104;
+    }
+    repeated string players_names = 1;
+    required int32 position = 2;
+}
+
+message player_identification {
+    extend BaseCommand {
+        optional player_identification cmd = 105;
+    }
+    required string name = 1;
+    required string MAC = 2;
+}
+
+message request {
+    extend BaseCommand {
+        optional request cmd = 106;
+    }
+    required RequestType requestT = 1;
+}
+
+message switch_mode {
+
+    enum GameMode {
+        M_AUCTION = 0;
+        M_TRICKS = 1;
+    }
+
+    extend BaseCommand {
+        optional switch_mode cmd = 107;
+    }
+
+    required GameMode mode = 1;
+}
+
+message ServResponse {
+
+    enum RespType {
+        OK_ID = 0;
+        OK_AUCTION = 1;
+        OK_MOVE = 2;
+        TRICK_WON = 3;
+        ERR = 4;
+    }
+
+    extend BaseCommand {
+        optional ServResponse cmd = 108;
+    }
+
+    required RespType rType = 1;
+    optional string message = 2;
+}
+
+message Disconnect {
+    extend BaseCommand {
+        optional Disconnect cmd = 109;
+    }
+}

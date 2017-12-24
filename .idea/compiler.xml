@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="jcoinche-client" />
+        <module name="jcoinche-server" />
+        <module name="Tools" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="Client" target="1.8" />
+      <module name="Java_jcoinche_2017" target="1.8" />
+      <module name="jcoinche-client" target="1.8" />
+      <module name="jcoinche-server" target="1.8" />
+      <module name="Server" target="1.8" />
+      <module name="Tools" target="1.8" />
+      <module name="Utils" target="1.5" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
